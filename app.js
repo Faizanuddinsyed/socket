@@ -8,16 +8,23 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: ["http://localhost:5173", "https://chat-frontend-1mu5.vercel.app"], // ✅ Allow both local & deployed frontend
+    methods: ["GET", "POST"],
+    credentials: true
+  }));
+  
 
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:5173", // Allow frontend connection
-    methods: ["GET", "POST"],
-  },
-});
+    cors: {
+      origin: ["http://localhost:5173", "https://chat-frontend-1mu5.vercel.app"], // ✅ Allow both
+      methods: ["GET", "POST"],
+      credentials: true
+    }
+  });
+  
 
 app.get("/", (req, res) =>{
     res.send("Chat Server is running!");
